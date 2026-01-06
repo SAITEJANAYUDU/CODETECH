@@ -1,0 +1,13 @@
+{
+  "name": "rest-api-optimized",
+  "version": "1.0.0",
+  "description": "Optimized REST API with advanced caching",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": ["rest-api", "caching", "performance", "optimization"],
+  "author": "You",
+  "license": "MIT"
+}
