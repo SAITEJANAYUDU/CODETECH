@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, ghostwhite, lavender);
+            color: darkslategray;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        
+        .main-header {
+            background-color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-bottom: 3px solid cornflowerblue;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, cornflowerblue, slateblue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px;
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(to right, slateblue, cornflowerblue);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 16px;
+            background-color: ghostwhite;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover {
+            background-color: lavender;
+            transform: translateY(-2px);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, mediumseagreen, seagreen);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: darkslategray;
+        }
+
+        
+        .main-container {
+            display: flex;
+            flex: 1;
+            padding: 30px;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        
+        .sidebar {
+            width: 280px;
+            background-color: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 25px black;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .team-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: slateblue;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: ghostwhite;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .team-member:hover {
+            background-color: lavender;
+            transform: translateX(5px);
+        }
+
+        .team-member.active {
+            border-color: cornflowerblue;
+            background-color: aliceblue;
+        }
+
+        .member-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: 700;
+            color: darkslategray;
+        }
+
+        .member-role {
+            font-size: 14px;
+            color: slategray;
+        }
+
+        .member-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .status-online {
+            background-color: limegreen;
+        }
+
+        .status-away {
+            background-color: goldenrod;
+        }
+
+        
+        .actions-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px 20px;
+            background-color: ghostwhite;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            color: darkslategray;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-button.blue {
+            background-color: aliceblue;
+            border-left: 5px solid cornflowerblue;
+        }
+
+        .action-button.blue:hover {
+            background-color: cornflowerblue;
+            color: white;
+        }
+
+        .action-button.green {
+            background-color: honeydew;
+            border-left: 5px solid mediumseagreen;
+        }
+
+        .action-button.green:hover {
+            background-color: mediumseagreen;
+            color: white;
+        }
+
+        .action-button.purple {
+            background-color: lavender;
+            border-left: 5px solid slateblue;
+        }
+
+        .action-button.purple:hover {
+            background-color: slateblue;
+            color: white;
+        }
+
+        .action-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .action-button.blue .action-icon {
+            background-color: cornflowerblue;
+        }
+
+        .action-button.green .action-icon {
+            background-color: mediumseagreen;
+        }
+
+        .action-button.purple .action-icon {
+            background-color: slateblue;
+        }
+
+        .action-button:hover .action-icon {
+            transform: scale(1.1);
+        }
+
+        
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+        }
+
+        .dashboard-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: slateblue;
+        }
+
+        .dashboard-subtitle {
+            color: slategray;
+            margin-top: 5px;
+        }
+
+        .dashboard-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 150px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid;
+        }
+
+        .stat-card.blue {
+            border-color: cornflowerblue;
+        }
+
+        .stat-card.green {
+            border-color: mediumseagreen;
+        }
+
+        .stat-card.purple {
+            border-color: slateblue;
+        }
+
+        .stat-card.orange {
+            border-color: darkorange;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: slategray;
+        }
+
+        
+        .workspace {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .workspace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .workspace-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: darkslategray;
+        }
+
+        .workspace-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn.primary {
+            background-color: cornflowerblue;
+            color: white;
+        }
+
+        .control-btn.primary:hover {
+            background-color: royalblue;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(100, 149, 237, 0.3);
+        }
+
+        .control-btn.secondary {
+            background-color: ghostwhite;
+            color: darkslategray;
+            border: 2px solid gainsboro;
+        }
+
+        .control-btn.secondary:hover {
+            background-color: lavender;
+            transform: translateY(-2px);
+        }
+
+        
+        .collaboration-area {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .collab-card {
+            background-color: ghostwhite;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .collab-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .collab-card.active {
+            border-color: cornflowerblue;
+            background-color: aliceblue;
+        }
+
+        .collab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .collab-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .collab-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: darkslategray;
+            margin-bottom: 10px;
+        }
+
+        .collab-description {
+            color: slategray;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .collab-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid gainsboro;
+        }
+
+        .collab-assignees {
+            display: flex;
+        }
+
+        .assignee-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: white;
+            margin-right: -10px;
+            border: 2px solid white;
+        }
+
+        .collab-status {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-in-progress {
+            background-color: lemonchiffon;
+            color: goldenrod;
+        }
+
+        .status-completed {
+            background-color: honeydew;
+            color: mediumseagreen;
+        }
+
+        .status-pending {
+            background-color: lavender;
+            color: slateblue;
+        }
+
+        
+        .chat-panel {
+            width: 350px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px black;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            padding: 25px;
+            border-bottom: 1px solid gainsboro;
+        }
+
+        .chat-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: slateblue;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 85%;
+        }
+
+        .message.own {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            background-color: ghostwhite;
+            padding: 15px;
+            border-radius: 18px;
+            border-top-left-radius: 5px;
+        }
+
+        .message.own .message-content {
+            background-color: cornflowerblue;
+            color: white;
+            border-top-left-radius: 18px;
+            border-top-right-radius: 5px;
+        }
+
+        .message-sender {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .message-text {
+            line-height: 1.4;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: silver;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .message.own .message-time {
+            color: lavender;
+        }
+
+        .chat-input-area {
+            padding: 20px;
+            border-top: 1px solid gainsboro;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid gainsboro;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: cornflowerblue;
+            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.1);
+        }
+
+        .send-button {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background-color: cornflowerblue;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .send-button:hover {
+            background-color: royalblue;
+            transform: scale(1.05);
+        }
+
+        
+        .notification-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            border-left: 5px solid;
+            max-width: 350px;
+        }
+
+        .notification-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification-toast.success {
+            border-left-color: mediumseagreen;
+        }
+
+        .notification-toast.info {
+            border-left-color: cornflowerblue;
+        }
+
+        .notification-toast.warning {
+            border-left-color: goldenrod;
+        }
+
+        .notification-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .notification-toast.success .notification-icon {
+            background-color: mediumseagreen;
+        }
+
+        .notification-toast.info .notification-icon {
+            background-color: cornflowerblue;
+        }
+
+        .notification-toast.warning .notification-icon {
+            background-color: goldenrod;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .notification-message {
+            color: slategray;
+            font-size: 14px;
+        }
+
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            transform: translateY(30px);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: slateblue;
+        }
+
+        .close-modal {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: ghostwhite;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: darkslategray;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background-color: lavender;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: darkslategray;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid gainsboro;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: cornflowerblue;
+            box-shadow: 0 0 0 3px rgba(100, 149, 237, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.primary {
+            background-color: cornflowerblue;
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            background-color: royalblue;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn.secondary {
+            background-color: ghostwhite;
+            color: darkslategray;
+            border: 2px solid gainsboro;
+        }
+
+        .modal-btn.secondary:hover {
+            background-color: lavender;
+        }
+
+        
+        @media (max-width: 1200px) {
+            .chat-panel {
+                display: none;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .collaboration-area {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+            
+            .dashboard-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .collaboration-area {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header class="main-header">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="logo-text">TEAM MEET</div>
+        </div>
+        
+        <div class="header-controls">
+            <div class="user-profile" id="userProfile">
+                <div class="user-avatar">S</div>
+                <div class="user-name">Saiteja</div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </header>
+
+    
+    <div class="main-container">
+        
+        <aside class="sidebar">
+            <div class="team-section">
+                <div class="section-title">
+                    <i class="fas fa-user-friends"></i>
+                    Team Members
+                </div>
+                
+                <div class="team-member active" id="memberSaiteja">
+                    <div class="member-avatar" style="background: linear-gradient(135deg, slateblue, mediumpurple);">
+                        S
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">Saiteja</div>
+                        <div class="member-role">Lead Developer</div>
+                    </div>
+                    <div class="member-status status-online"></div>
+                </div>
+                
+                <div class="team-member" id="memberPrabhu">
+                    <div class="member-avatar" style="background: linear-gradient(135deg, mediumseagreen, seagreen);">
+                        P
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">Prabhu</div>
+                        <div class="member-role">UI/UX Designer</div>
+                    </div>
+                    <div class="member-status status-online"></div>
+                </div>
+                
+                <div class="team-member" id="memberVamshi">
+                    <div class="member-avatar" style="background: linear-gradient(135deg, darkorange, chocolate);">
+                        V
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">Vamshi</div>
+                        <div class="member-role">Marketing Head</div>
+                    </div>
+                    <div class="member-status status-away"></div>
+                </div>
+            </div>
+            
+            <div class="actions-panel">
+                <div class="section-title">
+                    <i class="fas fa-bolt"></i>
+                    Quick Actions
+                </div>
+                
+                <button class="action-button blue" id="btnNewProject">
+                    <div class="action-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="action-text">New Project</div>
+                </button>
+                
+                <button class="action-button green" id="btnScheduleMeeting">
+                    <div class="action-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="action-text">Schedule Meeting</div>
+                </button>
+                
+                <button class="action-button purple" id="btnShareFiles">
+                    <div class="action-icon">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <div class="action-text">Share Files</div>
+                </button>
+                
+                <button class="action-button blue" id="btnCreateTask">
+                    <div class="action-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="action-text">Create Task</div>
+                </button>
+                
+                <button class="action-button green" id="btnStartChat">
+                    <div class="action-icon">
+                        <i class="fas fa-comment"></i>
+                    </div>
+                    <div class="action-text">Start Chat</div>
+                </button>
+            </div>
+        </aside>
+        
+        
+        <main class="main-content">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Team Dashboard</h1>
+                    <p class="dashboard-subtitle">Welcome to your collaborative workspace</p>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card blue">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Active Projects</div>
+                    </div>
+                    
+                    <div class="stat-card green">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Tasks Completed</div>
+                    </div>
+                    
+                    <div class="stat-card purple">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Team Online</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="workspace">
+                <div class="workspace-header">
+                    <h2 class="workspace-title">Active Collaborations</h2>
+                    
+                    <div class="workspace-controls">
+                        <button class="control-btn secondary" id="btnFilter">
+                            <i class="fas fa-filter"></i>
+                            Filter
+                        </button>
+                        <button class="control-btn primary" id="btnAddCollaboration">
+                            <i class="fas fa-plus"></i>
+                            Add Collaboration
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="collaboration-area">
+                    
+                    <div class="collab-card active" id="collab1">
+                        <div class="collab-icon" style="background-color: cornflowerblue;">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="collab-header">
+                            <div>
+                                <h3 class="collab-title">Website Development</h3>
+                                <p class="collab-description">Frontend and backend development for client website with React and Node.js</p>
+                            </div>
+                            <div class="collab-status status-in-progress">In Progress</div>
+                        </div>
+                        <div class="collab-meta">
+                            <div class="collab-assignees">
+                                <div class="assignee-avatar" style="background-color: slateblue;">S</div>
+                                <div class="assignee-avatar" style="background-color: mediumseagreen;">P</div>
+                            </div>
+                            <button class="control-btn secondary small" onclick="viewCollaboration(1)">View</button>
+                        </div>
+                    </div>
+                    
+            
+                    <div class="collab-card" id="collab2">
+                        <div class="collab-icon" style="background-color: mediumseagreen;">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="collab-header">
+                            <div>
+                                <h3 class="collab-title">UI Design System</h3>
+                                <p class="collab-description">Creating a comprehensive design system for all company products</p>
+                            </div>
+                            <div class="collab-status status-in-progress">In Progress</div>
+                        </div>
+                        <div class="collab-meta">
+                            <div class="collab-assignees">
+                                <div class="assignee-avatar" style="background-color: mediumseagreen;">P</div>
+                                <div class="assignee-avatar" style="background-color: darkorange;">V</div>
+                            </div>
+                            <button class="control-btn secondary small" onclick="viewCollaboration(2)">View</button>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="collab-card" id="collab3">
+                        <div class="collab-icon" style="background-color: slateblue;">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="collab-header">
+                            <div>
+                                <h3 class="collab-title">Marketing Campaign</h3>
+                                <p class="collab-description">Q4 digital marketing campaign for new product launch</p>
+                            </div>
+                            <div class="collab-status status-pending">Pending</div>
+                        </div>
+                        <div class="collab-meta">
+                            <div class="collab-assignees">
+                                <div class="assignee-avatar" style="background-color: darkorange;">V</div>
+                                <div class="assignee-avatar" style="background-color: slateblue;">S</div>
+                            </div>
+                            <button class="control-btn secondary small" onclick="viewCollaboration(3)">View</button>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="collab-card" id="collab4">
+                        <div class="collab-icon" style="background-color: goldenrod;">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="collab-header">
+                            <div>
+                                <h3 class="collab-title">Mobile App</h3>
+                                <p class="collab-description">Cross-platform mobile app development with React Native</p>
+                            </div>
+                            <div class="collab-status status-completed">Completed</div>
+                        </div>
+                        <div class="collab-meta">
+                            <div class="collab-assignees">
+                                <div class="assignee-avatar" style="background-color: slateblue;">S</div>
+                                <div class="assignee-avatar" style="background-color: mediumseagreen;">P</div>
+                                <div class="assignee-avatar" style="background-color: darkorange;">V</div>
+                            </div>
+                            <button class="control-btn secondary small" onclick="viewCollaboration(4)">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        
+        <aside class="chat-panel">
+            <div class="chat-header">
+                <h3 class="chat-title">
+                    <i class="fas fa-comments"></i>
+                    Team Chat
+                </h3>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Type a message...">
+                <button class="send-button" id="sendMessageBtn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    
+    <div class="notification-toast" id="notificationToast">
+        <div class="notification-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="notification-content">
+            <div class="notification-title" id="notificationTitle">Success!</div>
+            <div class="notification-message" id="notificationMessage">Action completed successfully.</div>
+        </div>
+    </div>
+
+    
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Create New Project</h3>
+                <button class="close-modal" id="closeProjectModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label" for="projectName">Project Name</label>
+                    <input type="text" class="form-input" id="projectName" placeholder="Enter project name">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="projectDescription">Description</label>
+                    <textarea class="form-input" id="projectDescription" rows="3" placeholder="Enter project description"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="projectTeam">Assign Team Members</label>
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <div class="team-member small" style="padding: 8px; cursor: default;">
+                            <div class="member-avatar" style="width: 30px; height: 30px; font-size: 14px; background-color: slateblue;">S</div>
+                            <div class="member-name" style="font-size: 14px;">Saiteja</div>
+                        </div>
+                        <div class="team-member small" style="padding: 8px; cursor: default;">
+                            <div class="member-avatar" style="width: 30px; height: 30px; font-size: 14px; background-color: mediumseagreen;">P</div>
+                            <div class="member-name" style="font-size: 14px;">Prabhu</div>
+                        </div>
+                        <div class="team-member small" style="padding: 8px; cursor: default;">
+                            <div class="member-avatar" style="width: 30px; height: 30px; font-size: 14px; background-color: darkorange;">V</div>
+                            <div class="member-name" style="font-size: 14px;">Vamshi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" id="cancelProject">Cancel</button>
+                <button class="modal-btn primary" id="saveProject">Create Project</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal-overlay" id="meetingModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Schedule Team Meeting</h3>
+                <button class="close-modal" id="closeMeetingModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label" for="meetingTitle">Meeting Title</label>
+                    <input type="text" class="form-input" id="meetingTitle" placeholder="Enter meeting title">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="meetingDate">Date & Time</label>
+                    <input type="datetime-local" class="form-input" id="meetingDate">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="meetingDuration">Duration (minutes)</label>
+                    <input type="number" class="form-input" id="meetingDuration" value="60" min="15" max="240">
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn secondary" id="cancelMeeting">Cancel</button>
+                <button class="modal-btn primary" id="saveMeeting">Schedule Meeting</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    
+        const notificationToast = document.getElementById('notificationToast');
+        const notificationTitle = document.getElementById('notificationTitle');
+        const notificationMessage = document.getElementById('notificationMessage');
+        
+        const projectModal = document.getElementById('projectModal');
+        const meetingModal = document.getElementById('meetingModal');
+        
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        
+        
+        const memberSaiteja = document.getElementById('memberSaiteja');
+        const memberPrabhu = document.getElementById('memberPrabhu');
+        const memberVamshi = document.getElementById('memberVamshi');
+        
+        
+        const btnNewProject = document.getElementById('btnNewProject');
+        const btnScheduleMeeting = document.getElementById('btnScheduleMeeting');
+        const btnShareFiles = document.getElementById('btnShareFiles');
+        const btnCreateTask = document.getElementById('btnCreateTask');
+        const btnStartChat = document.getElementById('btnStartChat');
+        const btnAddCollaboration = document.getElementById('btnAddCollaboration');
+        const btnFilter = document.getElementById('btnFilter');
+        
+        
+        const closeProjectModal = document.getElementById('closeProjectModal');
+        const closeMeetingModal = document.getElementById('closeMeetingModal');
+        const cancelProject = document.getElementById('cancelProject');
+        const cancelMeeting = document.getElementById('cancelMeeting');
+        const saveProject = document.getElementById('saveProject');
+        const saveMeeting = document.getElementById('saveMeeting');
+        
+        
+        const collabCards = document.querySelectorAll('.collab-card');
+        
+        
+        function initializeChat() {
+            const messages = [
+                { sender: 'Saiteja', text: 'I\'ve completed the API integration for the login system.', time: '10:30 AM', color: 'slateblue' },
+                { sender: 'Prabhu', text: 'Great! I\'ll start working on the login page UI today.', time: '10:45 AM', color: 'mediumseagreen' },
+                { sender: 'Vamshi', text: 'Don\'t forget about the marketing presentation tomorrow.', time: '11:15 AM', color: 'darkorange' },
+                { sender: 'Saiteja', text: 'I\'ll send the meeting agenda in an hour.', time: '11:30 AM', color: 'slateblue' }
+            ];
+            
+            messages.forEach(msg => {
+                addMessageToChat(msg.sender, msg.text, msg.time, msg.color, false);
+            });
+        }
+        
+        
+        function showNotification(title, message, type = 'info') {
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+            
+            notificationToast.className = 'notification-toast ' + type;
+            notificationToast.classList.add('show');
+            
+            setTimeout(() => {
+                notificationToast.classList.remove('show');
+            }, 3000);
+        }
+        
+        
+        function addMessageToChat(sender, text, time, color, isOwn = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isOwn ? 'own' : ''}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar" style="background-color: ${color};">${sender.charAt(0)}</div>
+                <div class="message-content">
+                    <div class="message-sender">${sender}</div>
+                    <div class="message-text">${text}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        
+        function getCurrentTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            
+            return `${hours}:${minutes} ${ampm}`;
+        }
+        
+        
+        function viewCollaboration(id) {
+            const collaborations = {
+                1: 'Website Development',
+                2: 'UI Design System',
+                3: 'Marketing Campaign',
+                4: 'Mobile App'
+            };
+            
+            showNotification('Collaboration Details', `Viewing details for: ${collaborations[id]}`, 'info');
+            
+            
+            collabCards.forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(`collab${id}`).classList.add('active');
+        }
+        
+        
+        memberSaiteja.addEventListener('click', () => {
+            document.querySelectorAll('.team-member').forEach(member => {
+                member.classList.remove('active');
+            });
+            memberSaiteja.classList.add('active');
+            showNotification('Team Member Selected', 'Viewing Saiteja\'s tasks and projects', 'info');
+        });
+        
+        memberPrabhu.addEventListener('click', () => {
+            document.querySelectorAll('.team-member').forEach(member => {
+                member.classList.remove('active');
+            });
+            memberPrabhu.classList.add('active');
+            showNotification('Team Member Selected', 'Viewing Prabhu\'s tasks and projects', 'info');
+        });
+        
+        memberVamshi.addEventListener('click', () => {
+            document.querySelectorAll('.team-member').forEach(member => {
+                member.classList.remove('active');
+            });
+            memberVamshi.classList.add('active');
+            showNotification('Team Member Selected', 'Viewing Vamshi\'s tasks and projects', 'info');
+        });
+        
+        
+        btnNewProject.addEventListener('click', () => {
+            projectModal.classList.add('active');
+            showNotification('New Project', 'Opening project creation form', 'info');
+        });
+        
+        btnScheduleMeeting.addEventListener('click', () => {
+            meetingModal.classList.add('active');
+            showNotification('Schedule Meeting', 'Opening meeting scheduler', 'info');
+        });
+        
+        btnShareFiles.addEventListener('click', () => {
+            showNotification('Share Files', 'Opening file sharing dialog', 'success');
+            
+            setTimeout(() => {
+                showNotification('Files Shared', '3 files have been shared with the team', 'success');
+            }, 1000);
+        });
+        
+        btnCreateTask.addEventListener('click', () => {
+            const taskName = prompt('Enter task name:');
+            if (taskName) {
+                const assignee = prompt('Assign to (Saiteja, Prabhu, or Vamshi):');
+                if (assignee) {
+                    showNotification('Task Created', `"${taskName}" assigned to ${assignee}`, 'success');
+                }
+            }
+        });
+        
+        btnStartChat.addEventListener('click', () => {
+            const chatWith = prompt('Start chat with (Saiteja, Prabhu, or Vamshi):');
+            if (chatWith) {
+                showNotification('Chat Started', `Opening chat with ${chatWith}`, 'info');
+                chatInput.focus();
+            }
+        });
+        
+        btnAddCollaboration.addEventListener('click', () => {
+            const collabName = prompt('Enter collaboration name:');
+            if (collabName) {
+                showNotification('Collaboration Added', `"${collabName}" has been added to active collaborations`, 'success');
+            }
+        });
+        
+        btnFilter.addEventListener('click', () => {
+            showNotification('Filter Applied', 'Showing only in-progress collaborations', 'info');
+            
+            
+            collabCards.forEach(card => {
+                const status = card.querySelector('.collab-status').textContent;
+                if (status !== 'In Progress') {
+                    card.style.display = 'none';
+                } else {
+                    card.style.display = 'block';
+                }
+            });
+            
+            
+            setTimeout(() => {
+                collabCards.forEach(card => {
+                    card.style.display = 'block';
+                });
+                showNotification('Filter Reset', 'Showing all collaborations', 'info');
+            }, 3000);
+        });
+        
+        
+        closeProjectModal.addEventListener('click', () => {
+            projectModal.classList.remove('active');
+        });
+        
+        closeMeetingModal.addEventListener('click', () => {
+            meetingModal.classList.remove('active');
+        });
+        
+        cancelProject.addEventListener('click', () => {
+            projectModal.classList.remove('active');
+            showNotification('Project Cancelled', 'Project creation was cancelled', 'warning');
+        });
+        
+        cancelMeeting.addEventListener('click', () => {
+            meetingModal.classList.remove('active');
+            showNotification('Meeting Cancelled', 'Meeting scheduling was cancelled', 'warning');
+        });
+        
+        saveProject.addEventListener('click', () => {
+            const projectName = document.getElementById('projectName').value;
+            const projectDescription = document.getElementById('projectDescription').value;
+            
+            if (projectName && projectDescription) {
+                projectModal.classList.remove('active');
+                showNotification('Project Created', `"${projectName}" has been created successfully`, 'success');
+                
+                
+                document.getElementById('projectName').value = '';
+                document.getElementById('projectDescription').value = '';
+            } else {
+                showNotification('Missing Information', 'Please fill in all fields', 'warning');
+            }
+        });
+        
+        saveMeeting.addEventListener('click', () => {
+            const meetingTitle = document.getElementById('meetingTitle').value;
+            const meetingDate = document.getElementById('meetingDate').value;
+            const meetingDuration = document.getElementById('meetingDuration').value;
+            
+            if (meetingTitle && meetingDate && meetingDuration) {
+                meetingModal.classList.remove('active');
+                showNotification('Meeting Scheduled', `"${meetingTitle}" has been scheduled`, 'success');
+                
+                
+                document.getElementById('meetingTitle').value = '';
+                document.getElementById('meetingDate').value = '';
+                document.getElementById('meetingDuration').value = '60';
+            } else {
+                showNotification('Missing Information', 'Please fill in all fields', 'warning');
+            }
+        });
+        
+        
+        sendMessageBtn.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+        
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                addMessageToChat('Saiteja', message, getCurrentTime(), 'slateblue', true);
+                chatInput.value = '';
+                
+                
+                setTimeout(() => {
+                    const replies = [
+                        "That's a great point!",
+                        "I'll work on that tomorrow.",
+                        "Can you share more details?",
+                        "Let's discuss this in our next meeting."
+                    ];
+                    const randomReply = replies[Math.floor(Math.random() * replies.length)];
+                    const randomUser = Math.random() > 0.5 ? 'Prabhu' : 'Vamshi';
+                    const userColor = randomUser === 'Prabhu' ? 'mediumseagreen' : 'darkorange';
+                    
+                    addMessageToChat(randomUser, randomReply, getCurrentTime(), userColor, false);
+                }, 1000);
+            }
+        }
+        
+        
+        collabCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                
+                if (!e.target.classList.contains('control-btn')) {
+                    const cardId = card.id.replace('collab', '');
+                    viewCollaboration(parseInt(cardId));
+                }
+            });
+        });
+        
+        
+        document.getElementById('userProfile').addEventListener('click', () => {
+            showNotification('Profile Menu', 'Opening user profile menu', 'info');
+        });
+        
+        
+        function initializeApp() {
+            initializeChat();
+            showNotification('Welcome to TEAM MEET', 'Collaborative platform loaded successfully', 'success');
+        }
+        
+        window.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>

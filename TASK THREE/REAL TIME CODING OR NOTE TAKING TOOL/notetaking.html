@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODE NOTE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, lavender 0%, aliceblue 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, steelblue 0%, cornflowerblue 100%);
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            font-size: 28px;
+        }
+        
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .logo-text p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        
+        .status-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .connection-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: limegreen;
+            border-radius: 50%;
+        }
+        
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: whitesmoke;
+            border-right: 1px solid gainsboro;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-section {
+            padding: 20px;
+            border-bottom: 1px solid gainsboro;
+        }
+        
+        .section-title {
+            color: steelblue;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .doc-info-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .doc-title-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid lavender;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+        
+        .doc-title-input:focus {
+            outline: none;
+            border-color: cornflowerblue;
+        }
+        
+        .doc-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: dimgray;
+        }
+        
+    
+        .lang-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .lang-option {
+            padding: 12px;
+            background: white;
+            border: 2px solid lavender;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .lang-option:hover {
+            border-color: cornflowerblue;
+            transform: translateY(-2px);
+        }
+        
+        .lang-option.active {
+            background: cornflowerblue;
+            color: white;
+            border-color: cornflowerblue;
+        }
+        
+        
+        .team-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .team-member {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid cornflowerblue;
+        }
+        
+        .member-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .member-info {
+            flex: 1;
+        }
+        
+        .member-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .member-status {
+            font-size: 12px;
+            color: dimgray;
+        }
+        
+    
+        .editor-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .editor-header {
+            background: ghostwhite;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid gainsboro;
+        }
+        
+        .editor-tools {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .tool-button {
+            background: white;
+            color: steelblue;
+            border: 2px solid lavender;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+        
+        .tool-button:hover {
+            border-color: cornflowerblue;
+            background: aliceblue;
+        }
+        
+        .editor-container {
+            flex: 1;
+            position: relative;
+        }
+        
+        .editor-line-numbers {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 50px;
+            height: 100%;
+            background: ghostwhite;
+            color: dimgray;
+            text-align: right;
+            padding: 20px 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow: hidden;
+            border-right: 1px solid gainsboro;
+        }
+        
+        #code-editor {
+            width: 100%;
+            height: 100%;
+            background: white;
+            color: #2c3e50;
+            border: none;
+            padding: 20px 20px 20px 70px;
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            white-space: pre;
+            overflow-wrap: normal;
+            overflow-x: auto;
+        }
+        
+        
+        .chat-panel {
+            width: 320px;
+            background: white;
+            border-left: 1px solid gainsboro;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            padding: 18px;
+            background: ghostwhite;
+            border-bottom: 1px solid gainsboro;
+        }
+        
+        .chat-header h3 {
+            color: steelblue;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .chat-message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .chat-message.you {
+            align-self: flex-end;
+            background: linear-gradient(135deg, cornflowerblue 0%, steelblue 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .chat-message.others {
+            align-self: flex-start;
+            background: whitesmoke;
+            color: #2c3e50;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .message-sender {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            opacity: 0.8;
+            text-align: right;
+            margin-top: 4px;
+        }
+        
+        .chat-input-area {
+            padding: 20px;
+            border-top: 1px solid gainsboro;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid lavender;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: cornflowerblue;
+        }
+        
+        .send-button {
+            background: cornflowerblue;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .send-button:hover {
+            background: steelblue;
+        }
+        
+        
+        .notification-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            animation: slideInRight 0.3s ease-out;
+            border-left: 4px solid cornflowerblue;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            background: cornflowerblue;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+
+        @media (max-width: 1024px) {
+            .chat-panel {
+                width: 280px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .chat-panel {
+                display: none;
+            }
+            .sidebar {
+                width: 240px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .sidebar {
+                width: 200px;
+            }
+            .lang-grid {
+                grid-template-columns: 1fr;
+            }
+            .editor-tools {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="header">
+            <div class="logo-area">
+                <div class="logo-icon">💻</div>
+                <div class="logo-text">
+                    <h1>NOTE CODE</h1>
+                    <p>Real-time coding & notes</p>
+                </div>
+            </div>
+            <div class="status-area">
+                <div class="connection-badge">
+                    <div class="status-dot"></div>
+                    <span id="status-text">Connected - Team Active</span>
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="main-layout">
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <div class="section-title"> Current Document</div>
+                    <div class="doc-info-card">
+                        <input type="text" class="doc-title-input" id="doc-title" value="Team Project - Main.js">
+                        <div class="doc-stats">
+                            <span id="doc-created">Created: Today</span>
+                            <span id="doc-saved">Saved: Just now</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <div class="section-title"> Language</div>
+                    <div class="lang-grid">
+                        <div class="lang-option active" data-lang="javascript">JavaScript</div>
+                        <div class="lang-option" data-lang="python">Python</div>
+                        <div class="lang-option" data-lang="html">HTML</div>
+                        <div class="lang-option" data-lang="css">CSS</div>
+                        <div class="lang-option" data-lang="markdown">Markdown</div>
+                        <div class="lang-option" data-lang="text">Plain Text</div>
+                    </div>
+                </div>
+                
+                <div class="team-list">
+                    <div class="section-title"> Team Members</div>
+                    <div id="team-members-list">
+                        
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="editor-area">
+                <div class="editor-header">
+                    <div class="editor-tools">
+                        <button class="tool-button" id="save-button">
+                             Save
+                        </button>
+                        <button class="tool-button" id="share-button">
+                             Share
+                        </button>
+                        <button class="tool-button" id="format-button">
+                             Format
+                        </button>
+                        <button class="tool-button" id="export-button">
+                             Export
+                        </button>
+                        <button class="tool-button" id="undo-button">
+                             Undo
+                        </button>
+                    </div>
+                    <div class="cursor-info">
+                        <span id="cursor-position">Line 1, Col 1</span>
+                    </div>
+                </div>
+                
+                <div class="editor-container">
+                    <div class="editor-line-numbers" id="line-numbers">
+                        1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10
+                    </div>
+                    <textarea id="code-editor" spellcheck="false">
+WRITE YOUR CODE HERE
+</textarea>
+                </div>
+            </div>
+            
+            
+            <div class="chat-panel">
+                <div class="chat-header">
+                    <h3> Team Discussion</h3>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Type your message...">
+                    <button class="send-button" id="send-button">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        const AppState = {
+            currentUser: {
+                id: 'user_you',
+                name: 'You',
+                color: 'cornflowerblue',
+                avatar: 'Y'
+            },
+            teamMembers: [
+                {
+                    id: 'user_You',
+                    name: 'You',
+                    color: 'tomato',
+                    avatar: 'Y',
+                    status: 'Online',
+                    active: true
+                },
+                {
+                    id: 'user_teja',
+                    name: 'Teja',
+                    color: 'mediumseagreen',
+                    avatar: 'T',
+                    status: 'Reviewing code',
+                    active: true
+                },
+                {
+                    id: 'user_Prabhu',
+                    name: 'Prabhu',
+                    color: 'cornflowerblue',
+                    avatar: 'P',
+                    status: 'Online',
+                    active: true
+                }
+            ],
+            document: {
+                id: 'doc_' + Date.now(),
+                title: 'Team Project - Main.js',
+                language: 'javascript',
+                content: '',
+                lastSaved: new Date(),
+                created: 'Today'
+            },
+            chatMessages: [],
+            connection: {
+                status: 'connected',
+                usersOnline: 3
+            }
+        };
+        
+        
+        const editor = document.getElementById('code-editor');
+        const lineNumbers = document.getElementById('line-numbers');
+        const chatInput = document.getElementById('chat-input');
+        const sendButton = document.getElementById('send-button');
+        const chatMessages = document.getElementById('chat-messages');
+        const docTitle = document.getElementById('doc-title');
+        const statusText = document.getElementById('status-text');
+        const teamList = document.getElementById('team-members-list');
+        const saveButton = document.getElementById('save-button');
+        const shareButton = document.getElementById('share-button');
+        const formatButton = document.getElementById('format-button');
+        const exportButton = document.getElementById('export-button');
+        const undoButton = document.getElementById('undo-button');
+        const cursorPosition = document.getElementById('cursor-position');
+        const docSaved = document.getElementById('doc-saved');
+        const langOptions = document.querySelectorAll('.lang-option');
+        
+        
+        function initializeApp() {
+            
+            AppState.document.content = editor.value;
+            
+            
+            setupEventListeners();
+            
+            
+            initializeTeamList();
+            initializeChat();
+            updateLineNumbers();
+            updateSavedTime();
+            
+            
+            startCollaborationSimulation();
+        }
+        
+        
+        function setupEventListeners() {
+            
+            editor.addEventListener('input', handleEditorChange);
+            editor.addEventListener('keyup', updateCursorPosition);
+            editor.addEventListener('click', updateCursorPosition);
+            
+        
+            docTitle.addEventListener('change', function() {
+                AppState.document.title = this.value;
+                showNotification('Document renamed to: ' + this.value);
+            });
+            
+            
+            langOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    langOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    AppState.document.language = this.dataset.lang;
+                    showNotification('Language changed to ' + this.textContent);
+                });
+            });
+            
+            
+            saveButton.addEventListener('click', saveDocument);
+            shareButton.addEventListener('click', shareDocument);
+            formatButton.addEventListener('click', formatDocument);
+            exportButton.addEventListener('click', exportDocument);
+            undoButton.addEventListener('click', undoLastChange);
+            
+            
+            sendButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendMessage();
+            });
+        }
+        
+        
+        function initializeTeamList() {
+            teamList.innerHTML = '';
+            
+            AppState.teamMembers.forEach(member => {
+                const memberElement = document.createElement('div');
+                memberElement.className = 'team-member';
+                memberElement.style.borderLeftColor = member.color;
+                
+                memberElement.innerHTML = `
+                    <div class="member-avatar" style="background-color: ${member.color}">
+                        ${member.avatar}
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">${member.name}</div>
+                        <div class="member-status">${member.status}</div>
+                    </div>
+                `;
+                
+                teamList.appendChild(memberElement);
+            });
+            
+            statusText.textContent = `Connected - ${AppState.teamMembers.length} team members active`;
+        }
+        
+        
+        function initializeChat() {
+            
+            AppState.chatMessages = [
+                {
+                    id: 'msg1',
+                    sender: { name: 'You', color: 'tomato' },
+                    content: 'I just implemented the WebSocket connection. Can you test it?',
+                    timestamp: '10:30 AM',
+                    type: 'you'
+                },
+                {
+                    id: 'msg2',
+                    sender: { name: 'Teja', color: 'mediumseagreen' },
+                    content: 'Working on the UI components. Should be ready by EOD.',
+                    timestamp: '10:45 AM',
+                    type: 'others'
+                },
+                {
+                    id: 'msg3',
+                    sender: { name: 'Prabhu', color: 'cornflowerblue' },
+                    content: 'Documentation is 80% complete. Will share the draft soon.',
+                    timestamp: '11:00 AM',
+                    type: 'others'
+                }
+            ];
+            
+            updateChatDisplay();
+        }
+        
+        
+        function updateChatDisplay() {
+            chatMessages.innerHTML = '';
+            
+            AppState.chatMessages.forEach(msg => {
+                const messageElement = document.createElement('div');
+                messageElement.className = `chat-message ${msg.type}`;
+                
+                messageElement.innerHTML = `
+                    <div class="message-sender" style="color: ${msg.sender.color}">
+                        ${msg.sender.name}
+                    </div>
+                    <div class="message-content">${msg.content}</div>
+                    <div class="message-time">${msg.timestamp}</div>
+                `;
+                
+                chatMessages.appendChild(messageElement);
+            });
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        
+        function sendMessage() {
+            const content = chatInput.value.trim();
+            
+            if (content) {
+                const newMessage = {
+                    id: 'msg_' + Date.now(),
+                    sender: AppState.currentUser,
+                    content: content,
+                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    type: 'you'
+                };
+                
+                AppState.chatMessages.push(newMessage);
+                updateChatDisplay();
+                chatInput.value = '';
+                
+                
+                simulateTeamResponse(content);
+            }
+        }
+        
+        
+        function simulateTeamResponse(userMessage) {
+            const responses = [
+                {
+                    sender: 'Prabhu',
+                    color: 'tomato',
+                    responses: [
+                        'Got it, will review.',
+                        'That makes sense.',
+                        'I can help with that.'
+                    ]
+                },
+                {
+                    sender: 'Teja',
+                    color: 'mediumseagreen',
+                    responses: [
+                        'Great idea!',
+                        'I agree with that approach.',
+                        'Let me check and get back.'
+                    ]
+                }
+            ];
+            
+            setTimeout(() => {
+                const randomMember = responses[Math.floor(Math.random() * responses.length)];
+                const randomResponse = randomMember.responses[Math.floor(Math.random() * randomMember.responses.length)];
+                
+                const responseMessage = {
+                    id: 'msg_' + Date.now(),
+                    sender: { name: randomMember.sender, color: randomMember.color },
+                    content: randomResponse,
+                    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    type: 'others'
+                };
+                
+                AppState.chatMessages.push(responseMessage);
+                updateChatDisplay();
+            }, 2000);
+        }
+        
+        
+        function handleEditorChange() {
+            AppState.document.content = editor.value;
+            updateLineNumbers();
+            updateSavedTime();
+            
+            
+            simulateTeamEditing();
+        }
+        
+        
+        function updateLineNumbers() {
+            const lines = editor.value.split('\n').length;
+            let numbersHtml = '';
+            
+            for (let i = 1; i <= Math.max(20, lines); i++) {
+                numbersHtml += i + '<br>';
+            }
+            
+            lineNumbers.innerHTML = numbersHtml;
+        }
+        
+        
+        function updateCursorPosition() {
+            const cursorPos = editor.selectionStart;
+            const textBeforeCursor = editor.value.substring(0, cursorPos);
+            const lines = textBeforeCursor.split('\n');
+            const line = lines.length;
+            const col = lines[lines.length - 1].length + 1;
+            
+            cursorPosition.textContent = `Line ${line}, Col ${col}`;
+        }
+        
+        
+        function updateSavedTime() {
+            const now = new Date();
+            const diff = Math.floor((now - AppState.document.lastSaved) / 1000);
+            
+            let timeText = 'Just now';
+            if (diff >= 60) {
+                const minutes = Math.floor(diff / 60);
+                timeText = `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+            }
+            
+            docSaved.textContent = 'Saved: ' + timeText;
+        }
+        
+    
+        function saveDocument() {
+            AppState.document.lastSaved = new Date();
+            updateSavedTime();
+            showNotification('Document saved successfully!');
+        }
+        
+        
+        function shareDocument() {
+            const shareUrl = `${window.location.origin}/collab/${AppState.document.id}`;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(shareUrl);
+                showNotification('Share link copied to clipboard!');
+            } else {
+                showNotification('Share URL: ' + shareUrl);
+            }
+        }
+        
+        
+        function formatDocument() {
+            const content = editor.value;
+            let formatted = content;
+            
+            if (AppState.document.language === 'javascript') {
+                formatted = content
+                    .replace(/\s+/g, ' ')
+                    .replace(/\s*{\s*/g, ' {\n    ')
+                    .replace(/;\s*/g, ';\n    ')
+                    .replace(/\s*}\s*/g, '\n}')
+                    .replace(/\n\s*\n/g, '\n');
+            }
+            
+            editor.value = formatted;
+            AppState.document.content = formatted;
+            updateLineNumbers();
+            showNotification('Code formatted successfully');
+        }
+        
+        
+        function exportDocument() {
+            const content = editor.value;
+            const filename = `${AppState.document.title}.${AppState.document.language === 'javascript' ? 'js' : 'txt'}`;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification(`Exported as ${filename}`);
+        }
+        
+        
+        function undoLastChange() {
+            showNotification('Undo feature would restore previous version');
+        }
+        
+        
+        function showNotification(message) {
+            const toast = document.createElement('div');
+            toast.className = 'notification-toast';
+            
+            toast.innerHTML = `
+                <div class="toast-icon">✓</div>
+                <div>${message}</div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        
+        function simulateTeamEditing() {
+            if (Math.random() > 0.7) {
+                const editingMember = Math.random() > 0.5 ? 'Prabhu' : 'Teja';
+                const actions = [
+                    'is editing the function',
+                    'added a comment',
+                    'fixed a bug',
+                    'optimized the code'
+                ];
+                
+                const randomAction = actions[Math.floor(Math.random() * actions.length)];
+                showNotification(`${editingMember} ${randomAction}`);
+                
+                
+                AppState.teamMembers.forEach(member => {
+                    if (member.name === editingMember) {
+                        member.status = randomAction;
+                    }
+                });
+                
+                initializeTeamList();
+            }
+        }
+        
+        
+        function startCollaborationSimulation() {
+            
+            setInterval(() => {
+                AppState.teamMembers.forEach(member => {
+                    if (member.name !== 'You') {
+                        const statuses = [
+                            'Editing code',
+                            'Reviewing changes',
+                            'Testing features',
+                            'Online'
+                        ];
+                        member.status = statuses[Math.floor(Math.random() * statuses.length)];
+                    }
+                });
+                initializeTeamList();
+            }, 10000);
+            
+            
+            setInterval(() => {
+                if (Math.random() > 0.8) {
+                    const dot = document.querySelector('.status-dot');
+                    if (dot.style.background === 'limegreen') {
+                        dot.style.background = 'tomato';
+                        statusText.textContent = 'Reconnecting...';
+                        setTimeout(() => {
+                            dot.style.background = 'limegreen';
+                            statusText.textContent = 'Connected - Team Active';
+                            showNotification('Reconnected to all team members');
+                        }, 2000);
+                    }
+                }
+            }, 15000);
+        }
+        
+    
+        window.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
